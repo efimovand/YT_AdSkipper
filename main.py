@@ -1,6 +1,7 @@
 import whisper
 from pytube import YouTube
 from datetime import datetime
+import os
 
 
 AUDIO_SAVE_DIRECTORY = "/Users/andrey/PycharmProjects/testWhisper/downloads"
@@ -26,7 +27,7 @@ def download_audio(video_url):
         segments = result["segments"]
         print(result, "\n")
 
-        print(f'Finished Transcribing [{round((datetime.now() - saved_time).total_seconds(), 1)}sec | {segments[-1]["end"]}sec]')
+        print(f'Finished Transcribing [{round((datetime.now() - saved_time).total_seconds(), 1)}sec | {segments[-1]["end"]}sec]')  # Время выполнения
     except:
         print("Failed to transcribe audio")
         return
@@ -35,24 +36,10 @@ def download_audio(video_url):
     # for i in segments:
     #     print(i["text"])
 
+    # Очистка папки с загрузками
+    directory = '/Users/andrey/PycharmProjects/testWhisper/downloads'
+    for file in os.listdir(directory):
+        os.remove(os.path.join(directory, file))
 
-# # Преобразование ЗВУКА в ТЕКСТ
-# def transcribe(file):
-#     model = whisper.load_model("base")
-#     result = model.transcribe(file, fp16=False)
-#     # print(result["text"])
-#     segments = result["segments"]
-#
-#     for i in segments:
-#         print(i, "\n")
 
 download_audio("https://www.youtube.com/watch?v=GlAaNG6H17Y")
-
-
-# ЗВУК --> ТЕКСТ
-# print("----- Starting Transcribing -----")
-# saved_time = datetime.now()
-#
-# transcribe("Обращение Влада.mp4")
-#
-# print(f"----- Finished Transcribing [{(datetime.now() - saved_time).total_seconds()}sec] -----")
